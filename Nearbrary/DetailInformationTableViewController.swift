@@ -7,12 +7,18 @@
 //
 
 import UIKit
+import os.log
+import SafariServices
+
 
 class DetailInformationTableViewController: UITableViewController {
 
+    var isbn:String?
+    @IBOutlet var isbnLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        NSLog("isbn:\(isbn!)")
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 

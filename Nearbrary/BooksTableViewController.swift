@@ -32,6 +32,7 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
     var currentTag: String? = ""
     var currentElement: String = ""
     var item : book? = nil
+    var sendIsbn:String?
     
     var start = 1
     @IBAction func more(_ sender: Any) {
@@ -179,5 +180,16 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
         let book = books[indexPath.row]
         NSLog("선택된 행은 \(indexPath.row) 번째 행입니다")
         NSLog("\(book.title!)")
+        sendIsbn=book.isbn
+       // if let _ = searchTextField.text {
+            performSegue(withIdentifier: "detailSegue", sender: self)
+        //}
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let detailVC = segue.destination as? DetailInformationTableViewController {
+            if let isbn = sendIsbn {
+                detailVC.isbn = isbn
+            }
+        }
     }
 }

@@ -237,7 +237,7 @@
                     <navigationItem key="navigationItem" title="책 검색 결과" id="I9K-eW-3gK"/>
                     <connections>
                         <outlet property="titleNavigationItem" destination="I9K-eW-3gK" id="fE6-8C-qBD"/>
-                        <segue destination="UqE-kf-ITh" kind="show" id="rt5-6m-1yk"/>
+                        <segue destination="UqE-kf-ITh" kind="show" identifier="detailSegue" id="rt5-6m-1yk"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UEJ-lM-ISH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -363,34 +363,8 @@
                                                                 <constraint firstAttribute="trailing" secondItem="OWO-qn-5MA" secondAttribute="trailing" id="AS3-ff-eva"/>
                                                             </constraints>
                                                         </stackView>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="82C-Lk-5Le" userLabel="Attribute Stack View">
-                                                            <rect key="frame" x="0.0" y="64.5" width="242" height="21.5"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="형태사항" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ur7-BQ-AXR">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="57" height="21.5"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="3dy-4d-2HF"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="229p;22cm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p5O-dT-RQz" userLabel="Value Label">
-                                                                    <rect key="frame" x="62" y="0.0" width="180" height="21.5"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="180" id="HVq-qf-167"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                            </subviews>
-                                                            <constraints>
-                                                                <constraint firstAttribute="trailing" secondItem="p5O-dT-RQz" secondAttribute="trailing" id="9PY-aL-ed9"/>
-                                                            </constraints>
-                                                        </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="hrn-Z1-Hzz" userLabel="ISBN Stack View">
-                                                            <rect key="frame" x="0.0" y="86" width="242" height="23"/>
+                                                            <rect key="frame" x="0.0" y="64.5" width="242" height="23"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="ISBN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CLA-D8-xOR">
                                                                     <rect key="frame" x="0.0" y="0.0" width="57" height="23"/>
@@ -413,6 +387,32 @@
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="JvJ-hY-52r" secondAttribute="trailing" id="Nhq-3Q-blK"/>
+                                                            </constraints>
+                                                        </stackView>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="82C-Lk-5Le" userLabel="Attribute Stack View">
+                                                            <rect key="frame" x="0.0" y="87.5" width="242" height="21.5"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="형태사항" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ur7-BQ-AXR">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="57" height="21.5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="3dy-4d-2HF"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="229p;22cm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p5O-dT-RQz" userLabel="Value Label">
+                                                                    <rect key="frame" x="62" y="0.0" width="180" height="21.5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="180" id="HVq-qf-167"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="trailing" secondItem="p5O-dT-RQz" secondAttribute="trailing" id="9PY-aL-ed9"/>
                                                             </constraints>
                                                         </stackView>
                                                     </subviews>
@@ -441,12 +441,52 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="gnH-p2-qNg">
-                                <rect key="frame" x="0.0" y="188" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="117" id="gnH-p2-qNg">
+                                <rect key="frame" x="0.0" y="188" width="375" height="117"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gnH-p2-qNg" id="DsF-7w-MN1">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="116.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hjJ-au-ZO8">
+                                            <rect key="frame" x="8" y="8" width="359" height="100.5"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YzG-ez-hZy">
+                                                    <rect key="frame" x="0.0" y="0.0" width="189.5" height="100.5"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fb1-xL-e7U">
+                                                            <rect key="frame" x="8" y="20" width="60" height="60"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="서강대학교" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b3e-Zf-tjD" userLabel="대학교">
+                                                            <rect key="frame" x="90" y="0.0" width="74" height="100.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstItem="b3e-Zf-tjD" firstAttribute="width" secondItem="Fb1-xL-e7U" secondAttribute="width" id="CdT-0p-ifd"/>
+                                                    </constraints>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="대출가능 : 3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ejq-z6-pwK" userLabel="대출가능한책수">
+                                                    <rect key="frame" x="189.5" y="0.0" width="169.5" height="100.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Ejq-z6-pwK" firstAttribute="width" secondItem="YzG-ez-hZy" secondAttribute="width" constant="-20" id="4zw-dE-f2B"/>
+                                            </constraints>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="hjJ-au-ZO8" secondAttribute="trailing" constant="8" id="EJk-0m-Q6S"/>
+                                        <constraint firstItem="hjJ-au-ZO8" firstAttribute="leading" secondItem="DsF-7w-MN1" secondAttribute="leading" constant="8" id="Hqz-fL-tyf"/>
+                                        <constraint firstAttribute="bottom" secondItem="hjJ-au-ZO8" secondAttribute="bottom" constant="8" id="N0c-4a-iaa"/>
+                                        <constraint firstItem="hjJ-au-ZO8" firstAttribute="top" secondItem="DsF-7w-MN1" secondAttribute="top" constant="8" id="vLX-qZ-tzh"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -456,6 +496,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="상세정보" id="XFS-6p-xez"/>
+                    <connections>
+                        <outlet property="isbnLabel" destination="JvJ-hY-52r" id="4LV-Im-LOg"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bzt-Tc-c47" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
