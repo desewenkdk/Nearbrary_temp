@@ -13,12 +13,29 @@ import SafariServices
 
 class DetailInformationTableViewController: UITableViewController {
 
-    var isbn:String?
-    @IBOutlet var isbnLabel: UILabel!
+    var nowBook:book?=nil
+    
+    @IBOutlet var booktitle: UILabel!
+    @IBOutlet var author: UILabel!
+    @IBOutlet var publisher: UILabel!
+    @IBOutlet var pubdate: UILabel!
+    @IBOutlet var isbnlabel: UILabel!
+    @IBOutlet var link: UILabel!
+    
+    @IBOutlet var bookImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSLog("isbn:\(isbn!)")
+        //NSLog("isbn:\(nowBook?.isbn!)")
+        booktitle.text=nowBook?.title
+        author.text=nowBook?.author
+        publisher.text=nowBook?.publisher
+        pubdate.text=nowBook?.pubdate
+        let cut_isbn=nowBook?.isbn?.components(separatedBy: " ")
+        isbnlabel.text=cut_isbn?[0]
+        link.text=nowBook?.link
+        bookImageView.image=nowBook?.image
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
