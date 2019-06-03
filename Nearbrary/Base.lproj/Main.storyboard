@@ -448,7 +448,7 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="96" id="8vm-fY-nSJ">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="96" id="8vm-fY-nSJ" customClass="DetailInformationTableViewCell" customModule="Nearbrary" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="200" width="375" height="96"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8vm-fY-nSJ" id="8ud-WG-F2z">
@@ -464,6 +464,9 @@
                                         </textView>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="sogangC" destination="jGz-AL-P1p" id="iSK-dM-HC4"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="117" id="gnH-p2-qNg">
                                 <rect key="frame" x="0.0" y="296" width="375" height="117"/>
@@ -523,7 +526,6 @@
                         <outlet property="link" destination="p5O-dT-RQz" id="RSl-YQ-YkA"/>
                         <outlet property="pubdate" destination="OWO-qn-5MA" id="vPD-Uh-SPS"/>
                         <outlet property="publisher" destination="7KD-zi-dYj" id="jyz-S9-VX7"/>
-                        <outlet property="sogangC" destination="jGz-AL-P1p" id="BIv-WQ-2kG"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bzt-Tc-c47" userLabel="First Responder" sceneMemberID="firstResponder"/>

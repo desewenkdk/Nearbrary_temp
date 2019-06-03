@@ -24,7 +24,6 @@ class DetailInformationTableViewController: UITableViewController {
     
     @IBOutlet var bookImageView: UIImageView!
     
-    @IBOutlet var sogangC: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +37,7 @@ class DetailInformationTableViewController: UITableViewController {
         link.text=nowBook?.link
         bookImageView.image=nowBook?.image
         
-        sogangC.layer.cornerRadius = 10
+     //   
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
