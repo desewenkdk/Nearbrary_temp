@@ -109,10 +109,10 @@ class DetailInformationTableViewController: UITableViewController {
                         print("in yonsei, \(self.allinfo?.yonsei) + val num : \(self.allinfo?.yonsei.count)\n")
                         print("in ewha, \(self.allinfo?.ewha)\n")
                         //self.allinfo?.sogang.forEach{books_sogang in
-                        self.tableViewData.append(cellData(opened: true,title: "Sogang Univ",sectionData:self.allinfo?.sogang ?? []))
-                        self.tableViewData.append(cellData(opened: true,title: "Yonsei Univ",sectionData:self.allinfo?.yonsei ?? []))
-                        self.tableViewData.append(cellData(opened: true,title: "Ewha Univ",sectionData:self.allinfo?.ewha ?? []))
-                        self.tableViewData.append(cellData(opened: true,title: "Hongik Univ",sectionData:self.allinfo?.hongik ?? []))
+                        self.tableViewData.append(cellData(opened: false,title: "Sogang Univ",sectionData:self.allinfo?.sogang ?? []))
+                        self.tableViewData.append(cellData(opened: false,title: "Yonsei Univ",sectionData:self.allinfo?.yonsei ?? []))
+                        self.tableViewData.append(cellData(opened: false,title: "Ewha Univ",sectionData:self.allinfo?.ewha ?? []))
+                        self.tableViewData.append(cellData(opened: false,title: "Hongik Univ",sectionData:self.allinfo?.hongik ?? []))
                         
                         //데이터를 받아온 다음에 표를 다시 그리자
                         self.tableView.reloadData()
@@ -188,6 +188,10 @@ class DetailInformationTableViewController: UITableViewController {
     }
 
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -206,6 +210,7 @@ class DetailInformationTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let dataIndex = indexPath.row - 1
         if indexPath.row == 0{
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell_bookinfo_header")else{return UITableViewCell()
             }
@@ -215,23 +220,28 @@ class DetailInformationTableViewController: UITableViewController {
         else{
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell_bookinfo_content")else{return UITableViewCell()
             }
-            let bookinfo : BookInfo = tableViewData[indexPath.section].sectionData[indexPath.row - 1]
+            let bookinfo : BookInfo = tableViewData[indexPath.section].sectionData[dataIndex]
             
             cell.textLabel?.text = bookinfo.status + "\\" + bookinfo.location + bookinfo.returndate
             return cell
         }
     }
 
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0{
+            if self.tableViewData[indexPath.section].opened == true{
+                self.tableViewData[indexPath.section].opened = false
+                let sections = IndexSet.init(integer: indexPath.section)
+                tableView.reloadSections(sections, with: .automatic)
+            }
+            else{
+                self.tableViewData[indexPath.section].opened = true
+                let sections = IndexSet.init(integer: indexPath.section)
+                tableView.reloadSections(sections, with: .automatic)
+            }
+            
+        }
     }
-    */
-
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
