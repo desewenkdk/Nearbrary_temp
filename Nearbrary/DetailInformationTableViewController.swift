@@ -24,6 +24,7 @@ class DetailInformationTableViewController: UITableViewController {
     
     @IBOutlet var bookImageView: UIImageView!
     
+    // MARK : Decodable Structures to get info from library
     struct AllInfo: Decodable {
         let sogang: [BookInfo]
         let yonsei: [BookInfo]
@@ -33,7 +34,7 @@ class DetailInformationTableViewController: UITableViewController {
     
     struct BookInfo: Decodable {
         let no: String?
-        let location: String?
+        let location: String
         let callno: String?
         let id: String?
         let status: String?
@@ -51,14 +52,27 @@ class DetailInformationTableViewController: UITableViewController {
         init(from decoder: Decoder) throws {
             let bookinfo = try decoder.container(keyedBy: CodingKeys.self)
             no = try bookinfo.decode(String.self, forKey: .no) ?? ""
-            location = try bookinfo.decode(String.self, forKey: .location) ?? ""
+            location = (try? bookinfo.decode(String.self, forKey: .location)) ?? "Not in This Library"
             callno = try bookinfo.decode(String.self, forKey: .callno) ?? ""
             id = try bookinfo.decode(String.self, forKey: .id) ?? ""
             status = try bookinfo.decode(String.self, forKey: .status)
             returndate = try bookinfo.decode(String.self, forKey: .returndate)
         }
+        
     }
-
+    //MARK : making foldable Table view
+    struct cellData{
+        var opened = Bool()
+        var title = String()
+        var sectionData = [BookInfo]()
+        
+        init(opened:Bool, title:String, sectionData:[BookInfo]){
+            self.opened = opened
+            self.title = title
+            self.sectionData = sectionData
+        }
+    }
+    var tableViewData = [cellData]()
     
     var allinfo:AllInfo?
     func requestAWSLambdaAPI(isbn:String,url:URL)->Bool{
@@ -78,6 +92,10 @@ class DetailInformationTableViewController: UITableViewController {
                     print("in sogang, \(self.allinfo?.sogang) + val num : \(self.allinfo?.sogang.count)\n")
                     print("in yonsei, \(self.allinfo?.yonsei) + val num : \(self.allinfo?.yonsei.count)\n")
                     print("in ewha, \(self.allinfo?.ewha)\n")
+                    //self.allinfo?.sogang.forEach{books_sogang in
+                    self.tableViewData.append(cellData(opened: false,title: "Sogang Univ",sectionData:self.allinfo?.sogang ?? []))
+                    
+                    //}
                 }
             } catch let jsonErr {
                 print("Error", jsonErr)
@@ -122,6 +140,8 @@ class DetailInformationTableViewController: UITableViewController {
         //....
     }
     
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //NSLog("isbn:\(nowBook?.isbn!)")
@@ -135,7 +155,7 @@ class DetailInformationTableViewController: UITableViewController {
         bookImageView.image=nowBook?.image
         
         getBookInfoFromLibrary()
-
+        
      //   
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -143,6 +163,7 @@ class DetailInformationTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+
 
     // MARK: - Table view data source
 
