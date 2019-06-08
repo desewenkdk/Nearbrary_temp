@@ -65,7 +65,7 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
         request.addValue(clientID, forHTTPHeaderField: "X-Naver-Client-Id")
         request.addValue(clientSecret, forHTTPHeaderField: "X-Naver-Client-Secret")
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request){ data, response, error in
             guard error == nil else {
                 print(error as Any)
                 return

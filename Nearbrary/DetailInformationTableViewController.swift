@@ -30,33 +30,48 @@ class DetailInformationTableViewController: UITableViewController {
         let yonsei: [BookInfo]
         let ewha: [BookInfo]
         let hongik: [BookInfo]
+        
+        enum CodingKeys : String,CodingKey{
+            case sogang = "sogang"
+            case yonsei = "yonsei"
+            case ewha = "ewha"
+            case hongik = "hongik"
+        }
+        init(from decoder: Decoder) throws{
+            let bookinfo = try decoder.container(keyedBy: CodingKeys.self)
+            sogang = try bookinfo.decode([BookInfo].self, forKey: .sogang)
+            yonsei = try bookinfo.decode([BookInfo].self, forKey: .yonsei)
+            ewha = try bookinfo.decode([BookInfo].self, forKey: .ewha)
+            hongik = try bookinfo.decode([BookInfo].self, forKey: .hongik)
+        }
     }
     
     struct BookInfo: Decodable {
-        let no: String?
+        let no: String
         let location: String
-        let callno: String?
-        let id: String?
-        let status: String?
-        let returndate: String?
+        let callno: String
+        let id: String
+        let status: String
+        let returndate: String
         
         enum CodingKeys:String,CodingKey{
-            case no
-            case location
-            case callno
-            case id
-            case status
-            case returndate
+            case no = "no"
+            case location = "location"
+            case callno = "callno"
+            case id = "id"
+            case status = "status"
+            case returndate = "returndate"
         }
         
+        //현재 초깃값 세팅이 안된다. codable객체를 중첩해서 사용한 것이 원인인지 뭔지 잘 모르겠다. 덕분에, 리스트가 비어있는 걸 이용한 코드가 동작한다.(allinfo.**.count값을 세서 0인 경우에 동작하는 부분.)
         init(from decoder: Decoder) throws {
             let bookinfo = try decoder.container(keyedBy: CodingKeys.self)
-            no = try bookinfo.decode(String.self, forKey: .no) ?? ""
-            location = (try? bookinfo.decode(String.self, forKey: .location)) ?? "Not in This Library"
-            callno = try bookinfo.decode(String.self, forKey: .callno) ?? ""
-            id = try bookinfo.decode(String.self, forKey: .id) ?? ""
-            status = try bookinfo.decode(String.self, forKey: .status)
-            returndate = try bookinfo.decode(String.self, forKey: .returndate)
+            no = try bookinfo.decodeIfPresent(String.self, forKey: .no) ?? "Not in this library"
+            location = (try bookinfo.decodeIfPresent(String.self, forKey: .location)) ?? "NOt in this Library"
+            callno = try bookinfo.decodeIfPresent(String.self, forKey: .callno) ?? "NOt in this Library"
+            id = try bookinfo.decodeIfPresent(String.self, forKey: .id) ?? "NOt in this Library"
+            status = try bookinfo.decodeIfPresent(String.self, forKey: .status) ?? "Not in This Library"
+            returndate = try bookinfo.decodeIfPresent(String.self, forKey: .returndate) ?? "NOt in this Library"
         }
         
     }
@@ -78,7 +93,7 @@ class DetailInformationTableViewController: UITableViewController {
     func requestAWSLambdaAPI(isbn:String,url:URL)->Bool{
         var urlRequest = URLRequest(url:url)
         var flag:Bool = true
-        URLSession.shared.dataTask(with: urlRequest) { (data, response, err) in
+        let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, err) in
             guard let data = data else {return}
             
             do {
@@ -88,19 +103,27 @@ class DetailInformationTableViewController: UITableViewController {
                     flag = false
                 }
                 else{
-                    self.allinfo = allinfo
-                    print("in sogang, \(self.allinfo?.sogang) + val num : \(self.allinfo?.sogang.count)\n")
-                    print("in yonsei, \(self.allinfo?.yonsei) + val num : \(self.allinfo?.yonsei.count)\n")
-                    print("in ewha, \(self.allinfo?.ewha)\n")
-                    //self.allinfo?.sogang.forEach{books_sogang in
-                    self.tableViewData.append(cellData(opened: false,title: "Sogang Univ",sectionData:self.allinfo?.sogang ?? []))
+                    DispatchQueue.main.async{
+                        self.allinfo = allinfo
+                        print("in sogang, \(self.allinfo?.sogang) + val num : \(self.allinfo?.sogang.count)\n")
+                        print("in yonsei, \(self.allinfo?.yonsei) + val num : \(self.allinfo?.yonsei.count)\n")
+                        print("in ewha, \(self.allinfo?.ewha)\n")
+                        //self.allinfo?.sogang.forEach{books_sogang in
+                        self.tableViewData.append(cellData(opened: true,title: "Sogang Univ",sectionData:self.allinfo?.sogang ?? []))
+                        self.tableViewData.append(cellData(opened: true,title: "Yonsei Univ",sectionData:self.allinfo?.yonsei ?? []))
+                        self.tableViewData.append(cellData(opened: true,title: "Ewha Univ",sectionData:self.allinfo?.ewha ?? []))
+                        self.tableViewData.append(cellData(opened: true,title: "Hongik Univ",sectionData:self.allinfo?.hongik ?? []))
+                        
+                        //데이터를 받아온 다음에 표를 다시 그리자
+                        self.tableView.reloadData()
+                    }
                     
-                    //}
                 }
             } catch let jsonErr {
                 print("Error", jsonErr)
             }
-            }.resume()
+        }
+        task.resume()
         return flag
     }
     func getBookInfoFromLibrary(){
@@ -169,12 +192,34 @@ class DetailInformationTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 4
+        return self.tableViewData.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        if tableViewData[section].opened == true{
+            return tableViewData[section].sectionData.count + 1 // +1을 해줘야, header빼고 데이터 만큼 만든다.
+        } else{
+            return 1
+        }
+    }
+
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0{
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell_bookinfo_header")else{return UITableViewCell()
+            }
+            cell.textLabel?.text = tableViewData[indexPath.section].title
+            return cell
+        }
+        else{
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell_bookinfo_content")else{return UITableViewCell()
+            }
+            let bookinfo : BookInfo = tableViewData[indexPath.section].sectionData[indexPath.row - 1]
+            
+            cell.textLabel?.text = bookinfo.status + "\\" + bookinfo.location + bookinfo.returndate
+            return cell
+        }
     }
 
     /*
@@ -231,5 +276,7 @@ class DetailInformationTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+
+
 
 }
