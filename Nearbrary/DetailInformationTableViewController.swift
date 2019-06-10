@@ -88,68 +88,148 @@ class DetailInformationTableViewController: UITableViewController {
         }
     }
     var tableViewData = [cellData]()
-    
+    var flag:Bool = true
     var allinfo:AllInfo?
-    func requestAWSLambdaAPI(isbn:String,url:URL)->Bool{
-        var urlRequest = URLRequest(url:url)
-        var flag:Bool = true
-        let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, err) in
+ 
+    func getBookInfoFromLibrary(){
+     
+        let address_call_lambda = "https://kw7eq88ls8.execute-api.ap-northeast-2.amazonaws.com/Prod/libinfo?isbn="
+        //   //let bookinfolist = Array<AllInfo>()
+        var flag_bookExist:Int = 0//0:
+        
+        if self.nowBook!.isbn == nil{
+            NSLog("There's no ISBN for this book")
+            return;
+        }
+        
+        let isbns = nowBook?.isbn?.components(separatedBy: " ")
+        
+
+//        guard let url = URL(string:urlString_10) else {
+//            NSLog("Request URL to Lambda is not available")
+//            return
+//        }
+//        DispatchQueue.global().sync{
+//            self.requestAWSLambdaAPI(isbns:,url: url)
+//            print(self.flag)
+//        }
+//
+        let len10 = String(isbns?[0] ?? "")
+        let len13 = String(isbns?[1] ?? "")
+       
+        NSLog("len10:\(String(describing: isbns?[0])) + || + len13:\(String(describing: isbns?[1]))")
+        guard let url_len10 = URL(string: address_call_lambda + len10) else{return}
+        guard let url_len13 = URL(string: address_call_lambda + len13)else{return}
+        
+        //ISBN의 길이가 13인 경우에 책이 더 많이 검색되므로 먼저 검색한다.
+        //var urlRequest = URLRequest(url:url_len13)
+        
+        if len13 != ""{
+        URLSession.shared.dataTask(with: url_len13) { (data, response, err) in
+            NSLog("len13url : \(url_len13)")
             guard let data = data else {return}
-            
-            do {
+            if data.isEmpty{
+                NSLog("There's No data responsed from Libraries ISBN Number:\(len13)")
+            }
+            else{
+                do {
+                    
                 let allinfo = try JSONDecoder().decode(AllInfo.self, from: data)
-                if allinfo.sogang.count + allinfo.yonsei.count + allinfo.ewha.count + allinfo.hongik.count == 0{
-                    NSLog("there's no books in Library with isbn:\(isbn)")
-                    flag = false
-                }
-                else{
+
                     DispatchQueue.main.async{
                         self.allinfo = allinfo
                         print("in sogang, \(self.allinfo?.sogang) + val num : \(self.allinfo?.sogang.count)\n")
                         print("in yonsei, \(self.allinfo?.yonsei) + val num : \(self.allinfo?.yonsei.count)\n")
                         print("in ewha, \(self.allinfo?.ewha)\n")
-                        //self.allinfo?.sogang.forEach{books_sogang in
-                        self.tableViewData.append(cellData(opened: false,title: "Sogang Univ",sectionData:self.allinfo?.sogang ?? []))
-                        self.tableViewData.append(cellData(opened: false,title: "Yonsei Univ",sectionData:self.allinfo?.yonsei ?? []))
-                        self.tableViewData.append(cellData(opened: false,title: "Ewha Univ",sectionData:self.allinfo?.ewha ?? []))
-                        self.tableViewData.append(cellData(opened: false,title: "Hongik Univ",sectionData:self.allinfo?.hongik ?? []))
                         
+                        //sectionData[0]:sogang, [1]:yonsei, [2]:ewha, [3]:hongik
+                        if self.allinfo?.sogang.count ?? 0 > 0 {
+                            self.allinfo?.sogang.forEach{book_in_sogang in
+                                self.tableViewData[0].sectionData.append(book_in_sogang)
+                            }
+                        }
+                        if self.allinfo?.yonsei.count ?? 0 > 0 {
+                            self.allinfo?.yonsei.forEach{book_in_yonsei in
+                                self.tableViewData[1].sectionData.append(book_in_yonsei)
+                            }
+                        }
+                        if self.allinfo?.ewha.count ?? 0 > 0 {
+                            self.allinfo?.ewha.forEach{book_in_ewha in
+                                self.tableViewData[2].sectionData.append(book_in_ewha)
+                            }
+                        }
+                        if self.allinfo?.hongik.count ?? 0 > 0 {
+                            self.allinfo?.hongik.forEach{book_in_hongik in
+                                self.tableViewData[3].sectionData.append(book_in_hongik)
+                            }
+                        }
                         //데이터를 받아온 다음에 표를 다시 그리자
                         self.tableView.reloadData()
                     }
                     
+                } catch let jsonErr {
+                    print("Error", jsonErr)
                 }
-            } catch let jsonErr {
-                print("Error", jsonErr)
             }
+            
+            }.resume()
+            
         }
-        task.resume()
-        return flag
-    }
-    func getBookInfoFromLibrary(){
-        let address_call_lamda = "https://kw7eq88ls8.execute-api.ap-northeast-2.amazonaws.com/Prod/libinfo?isbn="
-        
-        //let bookinfolist = Array<AllInfo>()
-        var flag_bookExist:Int = 0//0:
-        let isbns = nowBook?.isbn?.components(separatedBy: " ")
-        
-        isbns?.forEach{isbn in
-            NSLog("isbn Nums from Naver : \(isbn)")
+        else{
+            NSLog("there's no ISBN_len13 of this book.")
         }
-        let urlString = address_call_lamda + (isbns?[0])!
-        NSLog("url address to lambda:" + urlString)
-        
-        guard let url = URL(string:urlString) else {
-            NSLog("Request URL to Lambda is not available")
-            return
-        }
-        
-        if !requestAWSLambdaAPI(isbn: (isbns?[0])!,url: url){
-            flag_bookExist += 1
-            let bool = requestAWSLambdaAPI(isbn: (isbns?[1])!, url: url)
-            if !bool{
-                flag_bookExist += 1
+        if len10 != ""{
+        URLSession.shared.dataTask(with: url_len10) { (data, response, err) in
+            NSLog("len10url : \(url_len10)")
+            guard let data = data else {return}
+            if data.isEmpty{
+                NSLog("There's No data responsed from Libraries ISBN Number:\(len10)")
             }
+            else{
+                do {
+                    
+                    let allinfo = try JSONDecoder().decode(AllInfo.self, from: data)
+                    
+                    DispatchQueue.main.async{
+                        self.allinfo = allinfo
+                        print("in sogang, \(self.allinfo?.sogang) + val num : \(self.allinfo?.sogang.count)\n")
+                        print("in yonsei, \(self.allinfo?.yonsei) + val num : \(self.allinfo?.yonsei.count)\n")
+                        print("in ewha, \(self.allinfo?.ewha)\n")
+                        
+                        //sectionData[0]:sogang, [1]:yonsei, [2]:ewha, [3]:hongik
+                        if self.allinfo?.sogang.count ?? 0 > 0 {
+                            self.allinfo?.sogang.forEach{book_in_sogang in
+                                self.tableViewData[0].sectionData.append(book_in_sogang)
+                            }
+                        }
+                        if self.allinfo?.yonsei.count ?? 0 > 0 {
+                            self.allinfo?.yonsei.forEach{book_in_yonsei in
+                                self.tableViewData[1].sectionData.append(book_in_yonsei)
+                            }
+                        }
+                        if self.allinfo?.ewha.count ?? 0 > 0 {
+                            self.allinfo?.ewha.forEach{book_in_ewha in
+                                self.tableViewData[2].sectionData.append(book_in_ewha)
+                            }
+                        }
+                        if self.allinfo?.hongik.count ?? 0 > 0 {
+                            self.allinfo?.hongik.forEach{book_in_hongik in
+                                self.tableViewData[3].sectionData.append(book_in_hongik)
+                            }
+                        }
+                        //데이터를 받아온 다음에 표를 다시 그리자
+                        self.tableView.reloadData()
+                    }
+                    
+                } catch let jsonErr {
+                    print("Error", jsonErr)
+                }
+            }
+            
+            }.resume()
+        }
+        else{
+            NSLog("there's no ISBN_len10 of this book.")
         }
         /*
          이게 http요청 받아와서 codable객체로 받아오는 거보다 먼저 실행된다.
@@ -157,7 +237,6 @@ class DetailInformationTableViewController: UITableViewController {
         print("in yonsei, \(self.allinfo?.yonsei)\n")
         print("in ewha, \(self.allinfo?.ewha)\n")
         */
-        
         
         //store and show bookinfo
         //....
@@ -177,6 +256,9 @@ class DetailInformationTableViewController: UITableViewController {
         link.text=nowBook?.link
         bookImageView.image=nowBook?.image
         
+        
+        tableViewData = [cellData(opened: false, title: "Sogang",sectionData:[]),cellData(opened: false, title: "Yonsei", sectionData: []),cellData(opened: false, title: "Ewha", sectionData:[]),cellData(opened: false, title: "Hongik", sectionData: []),
+        ]
         getBookInfoFromLibrary()
         
      //   
