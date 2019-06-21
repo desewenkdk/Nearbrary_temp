@@ -294,17 +294,28 @@ class DetailInformationTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let dataIndex = indexPath.row - 1
         if indexPath.row == 0{
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell_bookinfo_header")else{return UITableViewCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell_bookinfo_header") as? DetailInformationInfoHeader
+                else{
+                    return UITableViewCell()
             }
-            cell.textLabel?.text = tableViewData[indexPath.section].title
+            cell.cell_header.text = tableViewData[indexPath.section].title
             return cell
+//
+//            cell.textLabel?.text = tableViewData[indexPath.section].title
+//            return cell
         }
         else{
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell_bookinfo_content")else{return UITableViewCell()
-            }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell_bookinfo_content") as! DetailInformationInfoContents
+            
             let bookinfo : BookInfo = tableViewData[indexPath.section].sectionData[dataIndex]
             
-            cell.textLabel?.text = bookinfo.status + "\\" + bookinfo.location + bookinfo.returndate
+            cell.location.text = bookinfo.location
+            cell.callno.text=bookinfo.callno
+            cell.status.text=bookinfo.status
+            if(bookinfo.status=="대출중")
+            {
+                cell.status.text = bookinfo.status + bookinfo.returndate
+            }
             return cell
         }
     }

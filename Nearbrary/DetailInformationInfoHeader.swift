@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetaillInformation_bookinfo_lib: UITableViewCell {
+class DetailInformationInfoHeader: UITableViewCell {
 
     
     @IBOutlet weak var cell_header: UILabel!

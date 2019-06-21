@@ -381,7 +381,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12345345" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JvJ-hY-52r" userLabel="ISBN Label">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="245" height="21.5"/>
+                                                                    <rect key="frame" x="65" y="0.0" width="180" height="21.5"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="180" id="z27-2d-Iip"/>
                                                                     </constraints>
@@ -456,7 +456,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell_bookinfo_header" textLabel="PIg-le-LhC" rowHeight="117" style="IBUITableViewCellStyleDefault" id="gnH-p2-qNg" customClass="DetaillInformation_bookinfo_lib" customModule="Nearbrary" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell_bookinfo_header" textLabel="PIg-le-LhC" rowHeight="117" style="IBUITableViewCellStyleDefault" id="gnH-p2-qNg" customClass="DetailInformationInfoHeader" customModule="Nearbrary" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="296" width="375" height="117"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gnH-p2-qNg" id="DsF-7w-MN1">
@@ -476,13 +476,84 @@
                                     <outlet property="cell_header" destination="PIg-le-LhC" id="cbp-sh-Uoo"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell_bookinfo_content" id="y5O-aD-gMM">
-                                <rect key="frame" x="0.0" y="413" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell_bookinfo_content" rowHeight="95" id="y5O-aD-gMM" customClass="DetailInformationInfoContents" customModule="Nearbrary" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="413" width="375" height="95"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="y5O-aD-gMM" id="q2r-FG-bUd">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="y5O-aD-gMM" id="q2r-FG-bUd">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="94.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pcl-dQ-0Yf">
+                                            <rect key="frame" x="5" y="5" width="365" height="84.5"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NhM-ql-BIm" userLabel="LeftView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="228.5" height="84.5"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="8XQ-dt-g1m">
+                                                            <rect key="frame" x="0.0" y="5" width="228.5" height="74.5"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="중앙도서관" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50T-Xt-hCJ" userLabel="Location">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="228.5" height="20.5"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="005.01 허23o" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NTZ-fJ-tdS" userLabel="Callno">
+                                                                    <rect key="frame" x="0.0" y="55.5" width="228.5" height="19"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstItem="8XQ-dt-g1m" firstAttribute="top" secondItem="NhM-ql-BIm" secondAttribute="top" constant="5" id="AuU-ZT-3c5"/>
+                                                        <constraint firstAttribute="trailing" secondItem="8XQ-dt-g1m" secondAttribute="trailing" id="YbA-A6-ybk"/>
+                                                        <constraint firstAttribute="bottom" secondItem="8XQ-dt-g1m" secondAttribute="bottom" constant="5" id="cRo-3h-jyU"/>
+                                                        <constraint firstItem="8XQ-dt-g1m" firstAttribute="leading" secondItem="NhM-ql-BIm" secondAttribute="leading" id="pFt-Qg-n39"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yi4-ci-Fpv" userLabel="RightView">
+                                                    <rect key="frame" x="236.5" y="0.0" width="128.5" height="84.5"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="대출중" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RPu-Xw-sA0" userLabel="Status">
+                                                            <rect key="frame" x="0.0" y="32" width="101" height="24"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JOO-dA-bo6">
+                                                            <rect key="frame" x="100" y="29" width="30" height="30"/>
+                                                            <state key="normal" title="Map"/>
+                                                        </button>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstItem="JOO-dA-bo6" firstAttribute="leading" secondItem="yi4-ci-Fpv" secondAttribute="leading" constant="91" id="6zj-sg-CUV"/>
+                                                        <constraint firstItem="JOO-dA-bo6" firstAttribute="leading" secondItem="yi4-ci-Fpv" secondAttribute="leading" constant="100" id="Gas-GD-EYc"/>
+                                                        <constraint firstItem="RPu-Xw-sA0" firstAttribute="top" secondItem="yi4-ci-Fpv" secondAttribute="top" constant="32" id="LlX-52-RQh"/>
+                                                        <constraint firstAttribute="bottom" secondItem="JOO-dA-bo6" secondAttribute="bottom" constant="25.5" id="g6o-WX-YtX"/>
+                                                        <constraint firstAttribute="bottom" secondItem="RPu-Xw-sA0" secondAttribute="bottom" constant="28.5" id="upG-Zt-hp1"/>
+                                                        <constraint firstItem="JOO-dA-bo6" firstAttribute="top" secondItem="yi4-ci-Fpv" secondAttribute="top" constant="29" id="yrY-6Z-ayQ"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="pcl-dQ-0Yf" firstAttribute="leading" secondItem="q2r-FG-bUd" secondAttribute="leading" constant="5" id="HYZ-nb-eZv"/>
+                                        <constraint firstAttribute="bottom" secondItem="pcl-dQ-0Yf" secondAttribute="bottom" constant="5" id="OxO-3A-Dsg"/>
+                                        <constraint firstAttribute="trailing" secondItem="pcl-dQ-0Yf" secondAttribute="trailing" constant="5" id="fmK-IZ-CLs"/>
+                                        <constraint firstItem="pcl-dQ-0Yf" firstAttribute="top" secondItem="q2r-FG-bUd" secondAttribute="top" constant="5" id="oZl-FN-UwX"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="callno" destination="NTZ-fJ-tdS" id="lhA-JR-ymb"/>
+                                    <outlet property="location" destination="50T-Xt-hCJ" id="6vR-WZ-IS7"/>
+                                    <outlet property="status" destination="RPu-Xw-sA0" id="2ZT-oy-R86"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
